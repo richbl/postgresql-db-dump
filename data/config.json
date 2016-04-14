@@ -1,0 +1,46 @@
+{
+  "details":
+    {
+      "title": "A bash script to dump a remote PostgreSQL database",
+      "syntax": "postgres_db_dump -h host -u username -p password -d database -o output_dir",
+      "version": "0.2.0"
+    },
+  "arguments":
+    [
+      {
+        "short_form": "-h",
+        "long_form": "--host",
+        "text_string": "host",
+        "description": "website URL or IP address",
+        "required": true
+      },
+      {
+        "short_form": "-u",
+        "long_form": "--username",
+        "text_string": "username",
+        "description": "user name",
+        "required": true
+      },
+      {
+        "short_form": "-p",
+        "long_form": "--password",
+        "text_string": "password",
+        "description": "password",
+        "required": false
+      },
+      {
+        "short_form": "-d",
+        "long_form": "--database",
+        "text_string": "database",
+        "description": "PostgreSQL database name",
+        "required": true
+      },
+      {
+        "short_form": "-o",
+        "long_form": "--output_dir",
+        "text_string": "output_dir",
+        "description": "absolute directory path to save dumped file",
+        "required": true
+      }
+    ]
+}

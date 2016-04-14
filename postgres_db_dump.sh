@@ -16,154 +16,69 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # more details.
 # -----------------------------------------------------------------------------
 #
-# A bash script to dump a PostgreSQL database
+# A bash script to dump a remote PostgreSQL database
+# version: 0.2.0
 #
-# Version: 0.1
-#
-# Requirements:
-#
-#  --Preexisting database
+# requirements:
+#  --preexisting database
+#  --jq program installed: used to parse /data/config.json
 #  --pg_dump (part of a PostgreSQL package install)
 #
-# Inputs:
+# inputs:
+#  --host (e.g., www.website.com or IP address)
+#  --username (must have appropriate permissions as PostgreSQL user/role on host)
+#  --password
+#  --database name to dump
+#  --output directory to save dumped file (absolute path)
 #
-#  --Host (e.g., www.website.com or IP address)
-#  --Username (must have appropriate permissions as PostgreSQL user/role on host)
-#  --Password
-#  --Database name to dump
-#  --Output directory to save dumped file (absolute path)
+# outputs:
+#  --a compressed (gz) dump file
+#  --notification of script success/failure
 #
-# Outputs:
-#
-#  --A compressed (gz) dump file
-#  --If failure, causing error message displayed
-#
-
-echo "
-|
-| A bash script to dump a PostgreSQL database
-|
-| Usage:
-|   postres_db_dump [options]
-|
-|   -h, --host       URL (www.website.com) or IP address
-|   -u, --username   user name
-|   -p, --password   password
-|   -d, --database   database name to dump
-|   -o, --outputdir  absolute directory path to save dumped file
-|"
-echo
 
 # -----------------------------------------------------------------------------
-# Functions
+# script declarations
 #
+shopt -s extglob
+EXEC_DIR="$(dirname "$0")"
+. ${EXEC_DIR}/lib/args
 
-function quit {
-  echo
-  exit 1
-}
+ARGS_FILE="${EXEC_DIR}/data/config.json"
 
-DEBUG=false
+declare -a REQ_PROGRAMS=('jq' 'pg_dump')
 
 # -----------------------------------------------------------------------------
-# Scan cmdline for arguments
+# perform script configuration, arguments parsing, and validation
 #
-while [[ $# -gt 0 ]]
-do
-  ARG="$1"
-
-  case $ARG in
-    -h|--host)
-      ARG_HOST="$2"
-      shift # skip argument
-      ;;
-    -u|--username)
-      ARG_USERNAME="$2"
-      shift # skip argument
-      ;;
-    -p|--password)
-      ARG_PASSWORD="$2"
-      shift # skip argument
-      ;;
-    -d|--database)
-      ARG_DATABASE="$2"
-      shift # skip argument
-      ;;
-    -o|--outputdir)
-      ARG_OUTPUTDIR="$2"
-      shift # skip argument
-      ;;
-      *)
-      # unknown argument
-      ;;
-  esac
-  shift # skip argument or value
-done
-
-# -----------------------------------------------------------------------------
-# check argument completeness
-#
-if [ -z "${ARG_HOST}" ]; then
-  echo "Error: host argument (-h, --host) missing."
-  quit
-fi
-
-if [ -z "${ARG_USERNAME}" ]; then
-  echo "Error: user_name argument (-u|--username) missing."
-  quit
-fi
-
-if [ -z "${ARG_PASSWORD}" ]; then
-  echo "Error: password argument (-p|--password) missing."
-  quit
-fi
-
-if [ -z "${ARG_DATABASE}" ]; then
-  echo "Error: database name argument (-d, --database) missing."
-  quit
-fi
-
-if [ -z "${ARG_OUTPUTDIR}" ]; then
-  echo "Error: outputdir argument (-o|--outputdir) missing."
-  quit
-fi
-
-# -----------------------------------------------------------------------------
-# check system requirements
-#
-
-# pg_dump command
-#
-if  ! type "pg_dump" &> /dev/null; then
-  echo "Error: pg_dump program not installed."
-  quit
-fi
+check_program_dependencies "REQ_PROGRAMS[@]"
+display_banner
+scan_for_args "$@"
+check_for_args_completeness
 
 # -----------------------------------------------------------------------------
 # generate dump file
 #
+mkdir -p "$(get_config_arg_value output_dir)"
+RESULTS="$(get_config_arg_value database)"-database-"$(date +"%Y%m%d%H%M%S")".gz
 
-mkdir -p "${ARG_OUTPUTDIR}"
-RESULTS="${ARG_DATABASE}"-database-"$(date +"%Y%m%d%H%M%S")".gz
-
-echo "Starting pg_dump now... this could take some time depending on database size."
+echo "Starting database dump now... this could take some time depending on database size."
 echo
 
-# dump to tmp.out file to catch pg_dump return code (if success, gzip and move file
-# else, rm tmp.out file and go home)
+# dump to $(get_config_arg_value database).sql file to catch pg_dump return code (if success, gzip and move file
+# else, rm $(get_config_arg_value database).sql file and go home)
 #
-export PGPASSWORD="${ARG_PASSWORD}"
-pg_dump -h "${ARG_HOST}" -U "${ARG_USERNAME}" "${ARG_DATABASE}" > "/tmp/tmp.out"
+export PGPASSWORD="$(get_config_arg_value password)"
+pg_dump -h "$(get_config_arg_value host)" -U "$(get_config_arg_value username)" "$(get_config_arg_value database)" > "/tmp/$(get_config_arg_value database).sql"
 RETURN_CODE=$?
 
 if [ $RETURN_CODE -ne 0 ]; then
-  rm "/tmp/tmp.out"
+  rm "/tmp/$(get_config_arg_value database).sql"
   echo
-  echo "Error: pg_dump exited with error code."
+  echo "Error: pg_dump exited with error code "${RETURN_CODE}"."
   quit
 else
-  gzip -q "/tmp/tmp.out"
-  mv "/tmp/tmp.out.gz" "${ARG_OUTPUTDIR}/${RESULTS}"
-  echo "Success: PostgreSQL dump completed. Results file (${RESULTS}) created in ${ARG_OUTPUTDIR}."
+  gzip -q "/tmp/$(get_config_arg_value database).sql"
+  mv "/tmp/$(get_config_arg_value database).sql.gz" "$(get_config_arg_value output_dir)/${RESULTS}"
+  echo "Success: PostgreSQL dump completed. Results file (${RESULTS}) created in $(get_config_arg_value output_dir)."
   echo
 fi

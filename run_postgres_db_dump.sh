@@ -16,22 +16,17 @@
 # -----------------------------------------------------------------------------
 #
 # A bash script front-end to call postgres_db_dump.sh
+# version: 0.1.0
 #
-# Version: 0.1
+# requirements:
+#  --access to postgres_db_dump.sh
 #
-# Requirements:
+# inputs:
+#  --none (runs with no inputs)
 #
-#  --Access to postgres_db_dump.sh
-#
-# Inputs:
-#
-#  --None (runs with no inputs)
-#
-# Outputs:
-#
-#  --None (side effect is the completion of the called script)
+# outputs:
+#  --none (side effect is the completion of the called script)
 #
 
-# SORCE Migration project
 #
-/bin/bash /home/USER/development/bash_scripts/postgres_db_dump.sh -h 10.10.10.10 -u USERNAME -p 'PASSWORD' -d DATABASE -o /home/USER/taiga_db_dump
+/bin/bash /home/USER/development/bash_scripts/postgres_db_dump.sh -h example.com -u USERNAME -p 'PASSWORD' -d DATABASE -o /home/USER/db_dump
