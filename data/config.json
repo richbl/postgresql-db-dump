@@ -2,7 +2,7 @@
   "details":
     {
       "title": "A bash script to dump a remote PostgreSQL database",
-      "syntax": "postgres_db_dump -h host -u username -p password -d database -o output_dir",
+      "syntax": "postgres_db_dump.sh -h host -u username -p password -d database -o output_dir",
       "version": "0.2.0"
     },
   "arguments":
