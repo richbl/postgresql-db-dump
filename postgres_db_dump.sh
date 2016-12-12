@@ -17,7 +17,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # -----------------------------------------------------------------------------
 #
 # A bash script to dump a remote PostgreSQL database
-# version: 0.3.0
+# version: 0.4.0
 #
 # requirements:
 #  --preexisting database
@@ -75,10 +75,12 @@ if [ $RETURN_CODE -ne 0 ]; then
   rm "/tmp/$(get_config_arg_value database).sql"
   echo
   echo "Error: pg_dump exited with error code "${RETURN_CODE}"."
+  export PGPASSWORD=
   quit 1
 else
   gzip -q "/tmp/$(get_config_arg_value database).sql"
   mv "/tmp/$(get_config_arg_value database).sql.gz" "$(get_config_arg_value output_dir)/${RESULTS}"
   echo "Success: PostgreSQL dump completed. Results file (${RESULTS}) created in $(get_config_arg_value output_dir)."
+  export PGPASSWORD=
   quit 0
 fi
