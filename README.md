@@ -1,4 +1,4 @@
-#Postgresql-Db-Dump
+# Postgresql-Db-Dump
 
 **Postgresql-Db-Dump** (`postgres_dump_db.sh`) permits for the remote dump of a PostgreSQL database. It takes a number of command-line parameters, and if run successfully, returns a date-and-time-stamped compressed file (useful for a running backup archive).
 
