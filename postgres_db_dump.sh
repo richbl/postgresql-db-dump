@@ -17,7 +17,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # -----------------------------------------------------------------------------
 #
 # A bash script to dump a remote PostgreSQL database
-# version: 0.4.0
 #
 # requirements:
 #  --preexisting database
@@ -41,16 +40,15 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 #
 shopt -s extglob
 EXEC_DIR="$(dirname "$0")"
-. ${EXEC_DIR}/lib/args
-
-ARGS_FILE="${EXEC_DIR}/data/config.json"
+# shellcheck source=bash-lib/args
+source "${EXEC_DIR}/bash-lib/args"
 
 declare -a REQ_PROGRAMS=('jq' 'pg_dump')
 
 # -----------------------------------------------------------------------------
 # perform script configuration, arguments parsing, and validation
 #
-check_program_dependencies "REQ_PROGRAMS[@]"
+check_program_dependencies "${REQ_PROGRAMS[@]}"
 display_banner
 scan_for_args "$@"
 check_for_args_completeness
@@ -67,14 +65,15 @@ echo
 # dump to $(get_config_arg_value database).sql file to catch pg_dump return code (if success, gzip and move file
 # else, rm $(get_config_arg_value database).sql file and go home)
 #
-export PGPASSWORD="$(get_config_arg_value password)"
+export PGPASSWORD
+PGPASSWORD="$(get_config_arg_value password)"
 pg_dump -h "$(get_config_arg_value host)" -U "$(get_config_arg_value username)" "$(get_config_arg_value database)" > "/tmp/$(get_config_arg_value database).sql"
 RETURN_CODE=$?
 
 if [ $RETURN_CODE -ne 0 ]; then
   rm "/tmp/$(get_config_arg_value database).sql"
   echo
-  echo "Error: pg_dump exited with error code "${RETURN_CODE}"."
+  echo "Error: pg_dump exited with error code ${RETURN_CODE}."
   export PGPASSWORD=
   quit 1
 else
