@@ -69,3 +69,9 @@ When arguments are correctly passed, the script provides feedback on the success
 	Starting database dump now... this could take some time depending on database size.
 
 	Success: PostgreSQL dump completed. Results file (dbname-database-20160414082441.gz) created in /home/user.
+
+## A Note on Cloning: This Project Uses Git Submodules
+
+This project uses a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) project, specifically the `bash-lib` folder to keep project libraries up-to-date without manual intervention.
+
+So, be sure to clone this project with the `--recursive` switch (`git clone --recursive https://github.com/this_project`) so any submodule project(s) will be automatically cloned as well. If you clone into this project without this switch, you'll likely see empty submodule project folders (depending on your version of Git).
