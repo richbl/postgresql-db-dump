@@ -70,7 +70,7 @@ When arguments are correctly passed, the script provides feedback on the success
 
 	Success: PostgreSQL dump completed. Results file (dbname-database-20160414082441.gz) created in /home/user.
 
-## A Note on Cloning: This Project Uses Git Submodules
+## <img src="https://user-images.githubusercontent.com/10182110/198916805-2c139481-8d92-4484-b92e-1d440df68045.jpg" width="150" /> IMPORTANT: This Project Uses Git Submodules
 
 This project uses a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) project, specifically the `bash-lib` folder to keep project libraries up-to-date without manual intervention.
 
