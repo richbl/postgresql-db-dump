@@ -70,8 +70,8 @@ When arguments are correctly passed, the script provides feedback on the success
 
 	Success: PostgreSQL dump completed. Results file (dbname-database-20160414082441.gz) created in /home/user.
 
-## <img src="https://user-images.githubusercontent.com/10182110/198916805-2c139481-8d92-4484-b92e-1d440df68045.jpg" width="150" /> IMPORTANT: This Project Uses Git Submodules
+## IMPORTANT: This Project Uses Git Submodules <img src="https://user-images.githubusercontent.com/10182110/198916805-2c139481-8d92-4484-b92e-1d440df68045.jpg" width="150" />
 
-This project uses a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) project, specifically the `bash-lib` folder to keep project libraries up-to-date without manual intervention.
+This project uses a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) project, specifically the `bash-lib` folder to keep this project up-to-date without manual intervention.
 
-So, be sure to clone this project with the `--recursive` switch (`git clone --recursive https://github.com/this_project`) so any submodule project(s) will be automatically cloned as well. If you clone into this project without this switch, you'll likely see empty submodule project folders (depending on your version of Git).
+So, be sure to clone this project with the `--recursive` switch (`git clone --recursive https://github.com/richbl/this_project`) so any submodule project(s) will be automatically cloned as well. If you clone into this project without this switch, you'll likely see empty submodule project folders (depending on your version of Git).
