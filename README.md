@@ -7,7 +7,7 @@ This script expects that the host is properly configured to accept remote logins
 ## Run_postgres_dump_db.sh
 The associated script, `run_postgres_dump.sh`, is really just a front-end script that calls into `postgres_dump_db.sh` with a predefined set of parameters passed in. Useful for automating the dump process (*e.g.*, executing via a cronjob).
 
-## [<img src="https://cloud.githubusercontent.com/assets/10182110/18208786/ae5d76b2-70e5-11e6-9663-cfe47d13f4d9.png" width="150" />](https://github.com/richbl/a-bash-template)Developed with a Bash Template (BaT)
+## [Developed with a Bash Template (BaT)](https://github.com/richbl/a-bash-template)[<img src="https://user-images.githubusercontent.com/10182110/145758715-b127adfc-710b-49d3-9ede-151adc83ae76.png" width="150" />](https://github.com/richbl/a-bash-template)
 
 **Postgresql-Db-Dump** uses a bash template (BaT) called **[A-Bash-Template](https://github.com/richbl/a-bash-template)** designed to make script development and command line argument management more robust, easier to implement, and easier to maintain. Here are a few of those features:
 
@@ -70,7 +70,7 @@ When arguments are correctly passed, the script provides feedback on the success
 
 	Success: PostgreSQL dump completed. Results file (dbname-database-20160414082441.gz) created in /home/user.
 
-## IMPORTANT: This Project Uses Git Submodules <img src="https://user-images.githubusercontent.com/10182110/198916805-2c139481-8d92-4484-b92e-1d440df68045.jpg" width="150" />
+## IMPORTANT: This Project Uses Git Submodules  <img src="https://user-images.githubusercontent.com/10182110/208980142-08d4cf6e-20ac-4243-ac69-e056258b0315.png" width="150" />
 
 This project uses a Git [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) project, specifically the `bash-lib` folder to keep this project up-to-date without manual intervention.
 
