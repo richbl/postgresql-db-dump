@@ -7,7 +7,7 @@ This script expects that the host is properly configured to accept remote logins
 ## Run_postgres_dump_db.sh
 The associated script, `run_postgres_dump.sh`, is really just a front-end script that calls into `postgres_dump_db.sh` with a predefined set of parameters passed in. Useful for automating the dump process (*e.g.*, executing via a cronjob).
 
-## [Developed with a Bash Template (BaT)](https://github.com/richbl/a-bash-template)[<img src="https://user-images.githubusercontent.com/10182110/145758715-b127adfc-710b-49d3-9ede-151adc83ae76.png" width="150" />](https://github.com/richbl/a-bash-template)
+## [<img src="https://github.com/user-attachments/assets/4dc1e16e-3fd3-481c-9a43-b027c029dd27" width="150" />](https://github.com/richbl/a-bash-template)[Developed with a Bash Template (BaT)](https://github.com/richbl/a-bash-template)
 
 **Postgresql-Db-Dump** uses a bash template (BaT) called **[A-Bash-Template](https://github.com/richbl/a-bash-template)** designed to make script development and command line argument management more robust, easier to implement, and easier to maintain. Here are a few of those features:
 
